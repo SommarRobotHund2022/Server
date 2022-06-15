@@ -1,0 +1,36 @@
+<head>
+    <script>
+        function GET(cmd) {
+            
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", `/ctrl?cmd=${cmd}`, false ); // false for synchronous request
+            xmlHttp.send( null );
+        }
+
+        document.addEventListener('keydown', (e) => {
+        switch (e.keyCode) {
+            case 37:
+                GET("kwkL")
+                break;
+            case 38:
+                GET("kwkF")
+                break;
+            case 39:
+                GET("kwkR")
+                break;
+            case 40:
+                GET('kbalance');
+                break;
+    }
+});
+    </script>
+</head>
+<body>
+    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+    <form action="/ctrl" method="get" target="dummyframe">
+        <label> Write your command:</label><br>
+        <input type="text"  id="cmd" name="cmd" value="kpee"/>
+        <input type="submit" value="Submit"/>
+    </form> 
+      
+</body>

@@ -1,0 +1,10 @@
+[Unit]
+Description=Foo
+After=syslog.target network.target
+
+[Service]
+WorkingDirectory=/home/sommarjobbare/PiServer/
+ExecStart=python app.py
+
+[Install]
+WantedBy=multi-user.target

@@ -1,10 +1,10 @@
 [Unit]
-Description=Foo
-After=syslog.target network.target c
+Description=Camera Server
+After=syslog.target network.target
 
 [Service]
-WorkingDirectory=/home/sommarjobbare/PiServer/
-ExecStart=python app.py
+WorkingDirectory=/home/sommarjobbare/PiServer/camera
+ExecStart=/usr/bin/python main.py
 
 [Install]
 WantedBy=multi-user.target

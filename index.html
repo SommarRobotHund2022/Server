@@ -1,25 +1,48 @@
 <head>
     <script>
-        function GET(cmd) {
+        function GET_CTRL(cmd) {
             
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.open( "GET", `/ctrl?cmd=${cmd}`, false ); // false for synchronous request
             xmlHttp.send( null );
         }
 
+        function GET(url) {
+            
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", url, false ); // false for synchronous request
+            xmlHttp.send( null );
+            return xmlHttp.responseText
+        }
+
+        var mySynFunc = (url) => {
+            console.log("update!!")
+            txt = GET(url)
+            if (txt.includes('Movement detected') && txt.indexOf('Movement detected') < 10)
+            {
+                alert("!!MOVEMENT!!")
+            }
+
+            document.getElementById('log').innerHTML = txt
+        }
+
+        /* This id must be used to stop your function interval */
+        var id = setInterval(mySynFunc, 5000, '/log');
+
+
         document.addEventListener('keydown', (e) => {
         switch (e.keyCode) {
             case 37:
-                GET("kcrL")
+                GET_CTRL("kcrL")
                 break;
             case 38:
-                GET("kcrF")
+                GET_CTRL("kcrF")
                 break;
             case 39:
-                GET("kcrR")
+                GET_CTRL("kcrR")
                 break;
             case 40:
-                GET('kbalance');
+                GET_CTRL('kbalance');
                 break;
     }
 });
@@ -34,7 +57,13 @@
     </form> 
     
 
-    <iframe src="/feed">
+    <iframe src="http://192.168.137.105:5000">
 
     </iframe>
+
+    <div>
+        <p id="log">
+
+        </p>
+    </div>
 </body>

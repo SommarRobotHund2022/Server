@@ -9,10 +9,13 @@ sub_sock.connect('tcp://127.0.0.1:2271')
 req_sock.connect("tcp://127.0.0.1:2272")
 sub_sock.setsockopt_string(zmq.SUBSCRIBE, '')
 
+log = ['log start']
+
 
 def d():
     while True:
-            print(sub_sock.recv())
+        r = sub_sock.recv().decode('utf-8')
+        log.append(r)
 
 t = threading.Thread(target=d, daemon=True )
 app = Flask(__name__)
@@ -33,8 +36,16 @@ def ctrl():
 
 @app.route('/feed')
 def feed():
-    return redirect('http://localhost:5000', code=301)
+    return redirect('http://192.168.137.105:5000', code=301)
 
+@app.route('/log')
+def logger():
+    out = ''
+    for i in reversed(log):
+        out += i
+        out += "<br>"
+    print("sending: ", log)
+    return Response(out)
 
 if __name__== "__main__":
     t.start()

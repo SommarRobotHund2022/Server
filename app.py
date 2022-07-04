@@ -31,6 +31,7 @@ def index():
 def ctrl():
     cmd = request.args.get('cmd')
     print('command recv')
+    print(cmd)
     req_sock.send_string(cmd)
     return req_sock.recv()
 

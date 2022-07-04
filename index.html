@@ -1,5 +1,5 @@
 <head>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="static/css/style.css">
 
     <script>
         function GET_CTRL(cmd) {
@@ -61,33 +61,28 @@
                     <!-- <input type="submit" id="button" value="Submit"/> -->
                     <a href="/" class="bn5">Submit</a>
                     <a href="/" class="bn5" id="fullScreen">Full screen</a>
+                    
                 </div>
 
-                <!-- <input type="checkbox" id="lol-checkbox">
+            </form>
 
-                <label id="button" for="lol-checkbox">
-                <div id="knob"></div>
-                <div id="subscribe">Manual</div>
-                <div id="alright">Auto</div>
-                
-                </label>  
-            -->
-                <input type="checkbox" id="toggle" class="toggleCheckbox" />
-                <label for="toggle" class='toggleContainer'>
-                  <div>Auto</div>   
-                  <div>Manual</div>
-                </label>
-                <input type="checkbox" id="onOff" class="toggleCheckbox" />
-                <label for="onOff" class='toggleContainer'>
-                  <div>On</div>   
-                  <div>Off</div>
-                </label>
+            <input onchange="GET_CTRL(this.value)"  type="checkbox" id="toggle" class="toggleCheckbox" value="Submit AutoManuell" />
+            <label for="toggle" class='toggleContainer'>
+            <div>Auto</div>   
+            <div>Manuell</div>
+            </label>
+
+            <input onchange="GET_CTRL(this.value)" type="checkbox" id="onOff" class="toggleCheckbox" value="TurnOnOff"/>
+            <label for="onOff" class='toggleContainer'>
+                <div>On</div>   
+                <div>Off</div>
+            </label>
 
                 <div>
                     <input class="logBorder" id="log" readonly="readonly"></input>
                 </div>
 
-            </form> 
+             
             
         </div>
         <div>
@@ -101,13 +96,13 @@
     </div>
 
     <div>
-    <img class="bittle" src="petoi-bittle-robot-dog-stem-fun-1_1.jpg" alt="Picture of Bittle">
+    <img class="bittle" src="static/pictures/petoi-bittle-robot-dog-stem-fun-1_1.jpg" alt="Picture of Bittle">
     </div>
     <div>
-    <img class="speechBubble" src="BittleInstructionSpeechBubble.png" alt="Picture of Bittle">
+    <img class="speechBubble" src="static/pictures/BittleInstructionSpeechBubble.png" alt="Bittle speech bubble">
     </div>
     <div>
-    <img class="SAAB" src="saab_logo.png" alt="Saab logo">
+    <img class="SAAB" src="static/pictures/saab_logo.png" alt="Saab logo">
     </div>
     
     

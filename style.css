@@ -1,0 +1,381 @@
+
+
+/* p {
+    background-color: rgb(94, 255, 0);
+} */
+/* form {
+    background-color: #ac71e3;
+    } */
+html{
+  font-family: Arial;
+  width: 100%;
+  height: 100%;
+  display: table;
+}
+label {
+    font-size: 30px;
+    background: rgb(4, 30, 66);
+    padding: 5px;
+    color:#ffb600;
+    border-radius: 10px;
+  }
+
+.write {
+    padding: 10px;
+  } 
+  
+
+body {
+    /* background-image: url('BittleInstructionSpeechBubble.png');
+    background-repeat: no-repeat;
+    background-position: 250 250;
+    background-size: 35%; */
+    background-color: #ffffff;
+    /* resize: both; */
+    /* background: rotate(45deg); */
+    
+    /* transform: rotate(30deg); */
+    /* height: 100vh; */
+    /* display: table-cell; */
+    width: 100%;
+    height: 100%;
+    /* position: fixed; */
+    
+}
+/* 
+html, body {
+    margin: 0;
+    padding: 0;
+} */
+
+/* html, body{ 
+  min-height: 100vh;
+  overflow: auto;
+} */
+
+html, body {
+  /* position: fixed; */
+  /* top:0;
+  bottom:0;
+  left:0;
+  right:0; */
+  height: 100%;
+  width: 100%;
+  transform: scale(1);
+}
+
+.bittle{
+  position: relative;
+  width: 250px;
+  height: 250px;
+  /* transform: scale(0.8); */
+  /* bottom: 100px; */
+  top: -1270px;
+}
+
+.bittle:hover {
+  /* transform: scale(0.7); */
+  animation: rotation 2s infinite linear;
+  
+  /* transform: rotate(30deg); */
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.speechBubble{
+  /* top:0;
+  bottom:0;
+  left:0;
+  right:0; */
+  width: 510px;
+  height: 400px;
+  left: 20%;
+  bottom: 69%;
+  /* position: relative; */
+  position: absolute;
+  /* transform: scale(0.3); */
+}
+
+.SAAB {
+  /* position: relative; */
+  position: absolute;
+  /* transform: scale(0.8); */
+  width: 396px;
+  height: 127px;
+  left: 70%;
+  bottom: 63%;
+  /* bottom: 100px; */
+  /* left: 1000px;
+  top: -1330px; */
+  /* top:0;
+  bottom:0;
+  left:0;
+  right:0; */
+  /* size: 50%; */
+}
+
+/* body::before {
+  content: "";
+  position: absolute;
+  background-image: url('https://www.robotshop.com/media/catalog/product/cache/image/400x400/9df78eab33525d08d6e5fb8d27136e95/p/e/petoi-bittle-robot-dog-stem-fun-1_1.jpg');
+  background-repeat: no-repeat;
+  background-position: 0 620;
+  size: 15%;
+  background-color: #ffffff;
+  z-index: 10;
+  background: url('https://www.robotshop.com/media/catalog/product/cache/image/400x400/9df78eab33525d08d6e5fb8d27136e95/p/e/petoi-bittle-robot-dog-stem-fun-1_1.jpg') 0 0 repeat;
+  /* transform: rotate(30deg); 
+} */
+
+.bn5 {
+    margin-right: 105px;
+    margin-left: 10px;
+    margin-top: -2px;
+    padding:  0.6em 2em;
+    border: none;
+    outline: none;
+    color: rgb(255, 255, 255);
+    background: #111;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+  }
+  
+  .bn5:before {
+    /* margin: 35px; */
+    content: "";
+    /* background: linear-gradient(
+      45deg,
+      #ff0000,
+      #ff7300,
+      #fffb00,
+      #48ff00,
+      #00ffd5,
+      #002bff,
+      #7a00ff,
+      #ff00c8,
+      #ff0000
+    ); */
+
+    background: linear-gradient(
+      45deg,
+      #373a36,
+      #004c97,
+      #ffb600,
+      #373a36
+    );
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowingbn5 20s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: 10px;
+  }
+  
+  @keyframes glowingbn5 {
+    0% {
+      background-position: 0 0;
+    }
+    50% {
+      background-position: 400% 0;
+    }
+    100% {
+      background-position: 0 0;
+    }
+  }
+  
+  .bn5:active {
+    color: #000;
+  }
+  
+  .bn5:active:after {
+    background: transparent;
+  }
+  
+  .bn5:hover:before {
+    opacity: 1;
+  }
+  
+  .bn5:after {
+    z-index: -1;
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #191919;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+  }
+
+.fbox {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* .camera:hover{
+  margin-right: 0px;
+  width: 2000px;
+  height: 1000px;
+} */
+
+#cameraframe {
+  /* margin-right: 10px; */
+  /* float: left; */
+  left: 50%;
+  width: 800px;
+  height: 600px;
+  border-radius: 10px;
+  background: #000000;
+  padding: 10px;
+  position: absolute;
+}
+
+#fullScreen{
+  left: 49%;
+  bottom: 68%;
+  position: absolute;
+}
+
+.logBorder {
+  /* position: 100 100 100 100; */
+  /* position: absolute; */
+  /* left: 10%;
+  right: 0px;
+  top: 0px;
+  bottom: 0px; */
+  border-style: dotted;
+  border-width: 1px;
+  border-color: #000;
+  position: relative;
+  margin-top: 10px;
+  /* margin-bottom: 100px; */
+  width: 20em;
+  height: 350px;
+  border-radius: 10px;
+  display: block;
+  margin-top: 0em;
+  margin-bottom: 100em;
+  margin-left: 0;
+  margin-right: 0;
+  /* background: #000000; */
+  /* padding: 10px; */
+}
+
+.toggleContainer {
+  margin: 10px 0px 10px 0px;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 80px;
+  height: 25px;
+  border: 3px solid #343434;
+  border-radius: 10px;
+  background: #343434;
+  font-weight: bold;
+  color: #343434;
+  cursor: pointer;
+}
+.toggleContainer::before {
+  content: '';
+  position: absolute;
+  width: 47%;
+  height: 100%;
+  left: 0%;
+  border-radius:10px;
+  background: white;
+  transition: all 0.3s;
+}
+
+/* .toggleContainer::before {
+  content: '';
+  position: absolute;
+  width: 47%;
+  height: 100%;
+  left: 0%;
+  border-radius:10px;
+  background-color: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  transition: all 0.3s;
+} */
+
+/* .toggleContainer::before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowingbn5 20s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 10px;
+} */
+
+.toggleCheckbox:checked + .toggleContainer::before {
+   left: 50%;
+}
+.toggleContainer div {
+  padding: 6px;
+  text-align: center;
+  font-size: 11px;
+  z-index: 1;
+}
+.toggleCheckbox {
+  display: none;
+}
+.toggleCheckbox:checked + .toggleContainer div:first-child{
+  color: white;
+  transition: color 0.3s;
+}
+.toggleCheckbox:checked + .toggleContainer div:last-child{
+  color: #343434;
+  transition: color 0.3s;
+}
+.toggleCheckbox + .toggleContainer div:first-child{
+  color: #343434;
+  transition: color 0.3s;
+}
+.toggleCheckbox + .toggleContainer div:last-child{
+  color: white;
+  transition: color 0.3s;
+}

@@ -1,4 +1,6 @@
 <head>
+    <link rel="stylesheet" href="style.css">
+
     <script>
         function GET_CTRL(cmd) {
             
@@ -50,20 +52,69 @@
 </head>
 <body>
     <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-    <form action="/ctrl" method="get" target="dummyframe">
-        <label> Write your command:</label><br>
-        <input type="text"  id="cmd" name="cmd" value="kpee"/>
-        <input type="submit" value="Submit"/>
-    </form> 
-    
+    <div class="fbox">
+        <div>
+            <form action="/ctrl" method="get" target="dummyframe">
+                <label id="write"> Write your command:</label><br><br>
+                <div class="fbox">
+                    <input type="text"  id="cmd" name="cmd" value="kpee"/>
+                    <!-- <input type="submit" id="button" value="Submit"/> -->
+                    <a href="/" class="bn5">Submit</a>
+                    <a href="/" class="bn5" id="fullScreen">Full screen</a>
+                </div>
 
-    <iframe src="http://192.168.137.105:5000">
+                <!-- <input type="checkbox" id="lol-checkbox">
 
-    </iframe>
+                <label id="button" for="lol-checkbox">
+                <div id="knob"></div>
+                <div id="subscribe">Manual</div>
+                <div id="alright">Auto</div>
+                
+                </label>  
+            -->
+                <input type="checkbox" id="toggle" class="toggleCheckbox" />
+                <label for="toggle" class='toggleContainer'>
+                  <div>Auto</div>   
+                  <div>Manual</div>
+                </label>
+                <input type="checkbox" id="onOff" class="toggleCheckbox" />
+                <label for="onOff" class='toggleContainer'>
+                  <div>On</div>   
+                  <div>Off</div>
+                </label>
+
+                <div>
+                    <input class="logBorder" id="log" readonly="readonly"></input>
+                </div>
+
+            </form> 
+            
+        </div>
+        <div>
+            <div class="camera">
+
+                <iframe id="cameraframe" src="http://192.168.137.105:5000"></iframe>
+            </div>    
+        </div>
+            
+        
+    </div>
 
     <div>
-        <p id="log">
-
-        </p>
+    <img class="bittle" src="petoi-bittle-robot-dog-stem-fun-1_1.jpg" alt="Picture of Bittle">
     </div>
+    <div>
+    <img class="speechBubble" src="BittleInstructionSpeechBubble.png" alt="Picture of Bittle">
+    </div>
+    <div>
+    <img class="SAAB" src="saab_logo.png" alt="Saab logo">
+    </div>
+    
+    
+
+    <section class="image-1">
+    </section>
+
+    
+    
 </body>

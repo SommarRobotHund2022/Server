@@ -1,5 +1,5 @@
 <head>
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/test.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
         function GET_CTRL(cmd) {
@@ -51,65 +51,52 @@
     </script>
 </head>
 <body>
-    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-    <div class="fbox">
+    <div class="menu">
+        <div class="bar">
+            <label id="labelstuff"> Write your command:</label><br><br>
+        </div>
+        <div class="sup">
+            <input type="text"  id="cmd" name="cmd" placeholder="kbalance"/>
+        </div>
         <div>
-            <form action="/ctrl" method="get" target="dummyframe">
-                <label id="write"> Write your command:</label><br><br>
-                <div class="fbox">
-                    <input type="text"  id="cmd" name="cmd" value="kpee"/>
-                    <!-- <input type="submit" id="button" value="Submit"/> -->
-                    <a href="/" class="bn5">Submit</a>
-                    <a href="/" class="bn5" id="fullScreen">Full screen</a>
-                    
-                </div>
-
-            </form>
-
+            <a href="/" class="bn5">Submit</a>
+        </div>
+        <div class="bar">
             <input onchange="GET_CTRL(this.value)"  type="checkbox" id="toggle" class="toggleCheckbox" value="Submit AutoManuell" />
             <label for="toggle" class='toggleContainer'>
             <div>Auto</div>   
             <div>Manuell</div>
             </label>
-
+        </div>
+        <div class="bar">
             <input onchange="GET_CTRL(this.value)" type="checkbox" id="onOff" class="toggleCheckbox" value="TurnOnOff"/>
             <label for="onOff" class='toggleContainer'>
-                <div>On</div>   
-                <div>Off</div>
+                <div>Dog 1</div>   
+                <div>Dog 2</div>
             </label>
-
-                <div>
-                    <input class="logBorder" id="log" readonly="readonly"></input>
-                </div>
-
-             
-            
         </div>
+        <div class="log">
+            <input class="logBorder" readonly="readonly"></input>
+        </div>
+    </div>
+
+    <div class="right">
         <div>
-            <div class="camera">
+            <iframe allow="fullscreen" src="http://192.168.137.105:5000">
 
-                <iframe id="cameraframe" src="http://192.168.137.105:5000"></iframe>
-            </div>    
+            </iframe>
         </div>
-            
-        
+        <div class="fullscreen">
+            <a href="/" class="bn6">Full screen</a>
+        </div>
+        <div class="SAABlogo">
+            <img id="SAABlogo" src="static/pictures/saab_logo.png" alt="Saab logo">
+        </div>
     </div>
 
-    <div>
-    <img class="bittle" src="static/pictures/petoi-bittle-robot-dog-stem-fun-1_1.jpg" alt="Picture of Bittle">
+    
+    <div class="belowmenu1">
+        <img id="bittle" src="static/pictures/petoi-bittle-robot-dog-stem-fun-1_1.jpg" alt="Picture of Bittle">
     </div>
-    <div>
-    <img class="speechBubble" src="static/pictures/BittleInstructionSpeechBubble.png" alt="Bittle speech bubble">
-    </div>
-    <div>
-    <img class="SAAB" src="static/pictures/saab_logo.png" alt="Saab logo">
-    </div>
-    
-    
-
-    <section class="image-1">
-    </section>
-
-    
-    
+    <img id="speechbub" src="static/pictures/BittleInstructionSpeechBubble.png" alt="Bittle speech bubble">
 </body>

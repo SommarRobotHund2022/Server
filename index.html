@@ -33,21 +33,8 @@
 
 
         document.addEventListener('keydown', (e) => {
-        switch (e.keyCode) {
-            case 37:
-                GET_CTRL("kcrL")
-                break;
-            case 38:
-                GET_CTRL("kcrF")
-                break;
-            case 39:
-                GET_CTRL("kcrR")
-                break;
-            case 40:
-                GET_CTRL('kbalance');
-                break;
-    }
-});
+            GET_CTRL(`KC: ${e.keyCode}`)
+        });
     </script>
 </head>
 <body>
@@ -65,14 +52,15 @@
                 </div>
 
             </form>
+            
 
-            <input onchange="GET_CTRL(this.value)"  type="checkbox" id="toggle" class="toggleCheckbox" value="Submit AutoManuell" />
+            <input onchange="GET_CTRL(`MD: ${this.checked? 'MANUAL' : 'AUTO'}`)"  type="checkbox" id="toggle" class="toggleCheckbox" value="Submit AutoManuell" />
             <label for="toggle" class='toggleContainer'>
             <div>Auto</div>   
-            <div>Manuell</div>
+            <div>Manual</div>
             </label>
 
-            <input onchange="GET_CTRL(this.value)" type="checkbox" id="onOff" class="toggleCheckbox" value="TurnOnOff"/>
+            <input onchange="GET_CTRL(`ST: ${this.checked}`)" type="checkbox" id="onOff" class="toggleCheckbox" value="TurnOnOff"/>
             <label for="onOff" class='toggleContainer'>
                 <div>On</div>   
                 <div>Off</div>

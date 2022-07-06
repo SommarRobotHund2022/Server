@@ -4,10 +4,14 @@ import zmq
 
 context = zmq.Context()
 req_sock = context.socket(zmq.REQ)
+req_sock.connect("tcp://127.0.0.1:2272")
+
 sub_sock = context.socket(zmq.SUB)
 sub_sock.connect('tcp://127.0.0.1:2271')
-req_sock.connect("tcp://127.0.0.1:2272")
 sub_sock.setsockopt_string(zmq.SUBSCRIBE, '')
+
+pub_sock = context.socket(zmq.PUB)
+pub_sock.bind('tcp://127.0.0.1:2273')
 
 log = ['log start']
 
@@ -29,12 +33,9 @@ def index():
 
 @app.route('/ctrl', methods=['GET'])
 def ctrl():
-    cmd = request.args.get('cmd')
-    print('command recv')
-    print(cmd)
-    req_sock.send_string(cmd)
-    return req_sock.recv()
-
+    cmd = request.args.get('cmd')    
+    pub_sock.send_string(cmd)
+    return "gg"
 @app.route('/feed')
 def feed():
     return redirect('http://192.168.137.105:5000', code=301)

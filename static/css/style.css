@@ -1,4 +1,15 @@
+<<<<<<< Updated upstream
 
+=======
+@tailwind base;
+
+/* p {
+    background-color: rgb(94, 255, 0);
+} */
+/* form {
+    background-color: #ac71e3;
+    } */
+>>>>>>> Stashed changes
 html{
   font-family: Arial;
   width: 100%;

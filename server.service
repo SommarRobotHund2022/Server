@@ -4,7 +4,7 @@ After=syslog.target network.target
 
 [Service]
 WorkingDirectory=/home/sommarjobbare/PiServer/
-ExecStart=python app.py
+ExecStart=python3 app.py
 
 [Install]
 WantedBy=multi-user.target

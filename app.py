@@ -30,7 +30,8 @@ def index():
 
 @app.route('/ctrl', methods=['GET'])
 def ctrl():
-    cmd = request.args.get('cmd')    
+    cmd = request.args.get('cmd')
+    print(cmd)
     pub_sock.send_string(cmd)
     return "gg"
 

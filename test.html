@@ -25,7 +25,7 @@
                 document.getElementById("toggle1").checked = false;
             }
 
-            if (dog == "MD: DOG2") {
+            if (dog == "ST: DOG2") {
                 document.getElementById("onOff").checked = true;
                 document.getElementById("toggle2").checked = true;
             }
@@ -76,7 +76,7 @@
 
 
         document.addEventListener('keydown', (e) => {
-            GET_CTRL(e)
+            GET_CTRL(`KC: ${e.keyCode}`)
         });
     </script>
 </head>
@@ -99,7 +99,7 @@
             </label>
         </div>
         <div class="bar">
-            <input onchange="GET_CTRL(`MD: ${this.checked? 'DOG2' : 'DOG1'}`)" onclick="storestate(`MD: ${this.checked? 'DOG2' : 'DOG1'}`)" type="checkbox" id="onOff" class="toggleCheckbox"/>
+            <input onchange="GET_CTRL(`ST: ${this.checked? 'DOG2' : 'DOG1'}`)" onclick="storestate(`ST: ${this.checked? 'DOG2' : 'DOG1'}`)" type="checkbox" id="onOff" class="toggleCheckbox"/>
             <label id="toggle2" for="onOff" class='toggleContainer'>
                 <div>Dog 1</div>   
                 <div>Dog 2</div>

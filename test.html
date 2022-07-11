@@ -26,7 +26,6 @@
             }
 
             if (dog == "MD: DOG2") {
-                console.log("you did enter swap toggle for dog2")
                 document.getElementById("onOff").checked = true;
                 document.getElementById("toggle2").checked = true;
             }
@@ -77,21 +76,8 @@
 
 
         document.addEventListener('keydown', (e) => {
-        switch (e.keyCode) {
-            case 37:
-                GET_CTRL("kcrL")
-                break;
-            case 38:
-                GET_CTRL("kcrF")
-                break;
-            case 39:
-                GET_CTRL("kcrR")
-                break;
-            case 40:
-                GET_CTRL('kbalance');
-                break;
-    }
-});
+            GET_CTRL(e)
+        });
     </script>
 </head>
 <body>

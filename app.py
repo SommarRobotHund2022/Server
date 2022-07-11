@@ -3,18 +3,15 @@ from flask import Flask, Response, request, redirect, render_template
 import zmq
 
 context = zmq.Context()
-req_sock = context.socket(zmq.REQ)
-req_sock.connect("tcp://127.0.0.1:2272")
 
 sub_sock = context.socket(zmq.SUB)
-sub_sock.connect('tcp://127.0.0.1:2271')
+sub_sock.connect('tcp://192.168.137.71:2271')
 sub_sock.setsockopt_string(zmq.SUBSCRIBE, '')
 
 pub_sock = context.socket(zmq.PUB)
-pub_sock.bind('tcp://127.0.0.1:2273')
+pub_sock.bind('tcp://192.168.137.1:2273')
 
 log = ['log start']
-
 
 def d():
     while True:
@@ -36,6 +33,7 @@ def ctrl():
     cmd = request.args.get('cmd')    
     pub_sock.send_string(cmd)
     return "gg"
+
 @app.route('/feed')
 def feed():
     return redirect('http://192.168.137.105:5000', code=301)

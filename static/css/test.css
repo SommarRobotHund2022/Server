@@ -105,20 +105,17 @@ label {
 
 #bittle{
     width: 60%;
-    height: 60%;
 }
 
 #speechbub{
     position: absolute;
     width: 27%;
-    height: 35%;
     top: 35%;
     left: 22%;
 }
 
 #SAABlogo{
     width: 60%;
-    height: 12%;
 }
 
 .main{
@@ -175,6 +172,14 @@ label {
     }
   }
   
+#toggle1 {
+  visibility: hidden;
+}
+
+#toggle2 {
+  visibility: hidden;
+}
+
 .toggleContainer {
     margin-top: 10%;
     margin-left: 20%;
@@ -198,7 +203,7 @@ label {
     left: 0%;
     border-radius:10px;
     background: white;
-    transition: all 0.3s;
+    transition: all 0.0s;
   }
   
   .toggleCheckbox:checked + .toggleContainer::before {
@@ -215,17 +220,17 @@ label {
   }
   .toggleCheckbox:checked + .toggleContainer div:first-child{
     color: white;
-    transition: color 0.3s;
+    transition: color 0.0s;
   }
   .toggleCheckbox:checked + .toggleContainer div:last-child{
     color: #343434;
-    transition: color 0.3s;
+    transition: color 0.0s;
   }
   .toggleCheckbox + .toggleContainer div:first-child{
     color: #343434;
-    transition: color 0.3s;
+    transition: color 0.0s;
   }
   .toggleCheckbox + .toggleContainer div:last-child{
     color: white;
-    transition: color 0.3s;
+    transition: color 0.0s;
   }

@@ -2,6 +2,49 @@
     <link rel="stylesheet" href="static/css/test.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
+        window.addEventListener("load", onLoad1);
+
+        function storestate(state) {
+            if (state == "MD: MANUAL" || state == "MD: AUTO"){
+                localStorage.setItem("lastState", state);
+            }
+            else{
+                localStorage.setItem("dog", state)
+            }
+        }
+
+        function onLoad1() {
+            var state = localStorage.getItem("lastState");
+            var dog = localStorage.getItem("dog");
+
+            if (state == "MD: MANUAL") {
+                document.getElementById("toggle1").checked = true;
+                document.getElementById("toggle").checked = true;
+            }
+            else {
+                document.getElementById("toggle1").checked = false;
+            }
+
+            if (dog == "MD: DOG2") {
+                console.log("you did enter swap toggle for dog2")
+                document.getElementById("onOff").checked = true;
+                document.getElementById("toggle2").checked = true;
+            }
+            else {
+                document.getElementById("toggle2").checked = false;
+            }
+            
+            GET_CTRL(state);
+            GET_CTRL(dog);
+        }
+
+        var delayInMilliseconds = 70;
+
+         setTimeout(function() {
+            document.getElementById("toggle1").style.visibility = "visible";
+            document.getElementById("toggle2").style.visibility = "visible";
+        }, delayInMilliseconds);
+
         function GET_CTRL(cmd) {
             
             var xmlHttp = new XMLHttpRequest();
@@ -17,19 +60,20 @@
             return xmlHttp.responseText
         }
 
-        var mySynFunc = (url) => {
-            console.log("update!!")
-            txt = GET(url)
-            if (txt.includes('Movement detected') && txt.indexOf('Movement detected') < 10)
-            {
-                alert("!!MOVEMENT!!")
-            }
-
-            document.getElementById('log').innerHTML = txt
-        }
+        // var mySynFunc = (url) => {
+        //     console.log("update!!")
+        //     txt = GET(url)
+        //     if (txt.includes('Movement detected') && txt.indexOf('Movement detected') < 10)
+        //     {
+        //         alert("!!MOVEMENT!!")
+        //     }
+        //     if(txt != null){
+        //         document.getElementById('log').innerHTML = txt
+        //     }
+        // }
 
         /* This id must be used to stop your function interval */
-        var id = setInterval(mySynFunc, 5000, '/log');
+        // var id = setInterval(mySynFunc, 5000, '/log');
 
 
         document.addEventListener('keydown', (e) => {
@@ -62,15 +106,15 @@
             <a href="/" class="bn5">Submit</a>
         </div>
         <div class="bar">
-            <input onchange="GET_CTRL(this.value)"  type="checkbox" id="toggle" class="toggleCheckbox" value="Submit AutoManuell" />
-            <label for="toggle" class='toggleContainer'>
+            <input onchange="GET_CTRL(`MD: ${this.checked? 'MANUAL' : 'AUTO'}`)" onclick="storestate(`MD: ${this.checked? 'MANUAL' : 'AUTO'}`)" type="checkbox" id="toggle" class="toggleCheckbox"/>
+            <label id="toggle1" for="toggle" class='toggleContainer'>
             <div>Auto</div>   
-            <div>Manuell</div>
+            <div>Manual</div>
             </label>
         </div>
         <div class="bar">
-            <input onchange="GET_CTRL(this.value)" type="checkbox" id="onOff" class="toggleCheckbox" value="TurnOnOff"/>
-            <label for="onOff" class='toggleContainer'>
+            <input onchange="GET_CTRL(`MD: ${this.checked? 'DOG2' : 'DOG1'}`)" onclick="storestate(`MD: ${this.checked? 'DOG2' : 'DOG1'}`)" type="checkbox" id="onOff" class="toggleCheckbox"/>
+            <label id="toggle2" for="onOff" class='toggleContainer'>
                 <div>Dog 1</div>   
                 <div>Dog 2</div>
             </label>
@@ -82,9 +126,9 @@
 
     <div class="right">
         <div>
-            <iframe allow="fullscreen" src="http://192.168.137.105:5000">
+            <!-- <iframe allow="fullscreen" src="http://192.168.137.105:5000"> -->
 
-            </iframe>
+            <!-- </iframe> -->
         </div>
         <div class="fullscreen">
             <a href="/" class="bn6">Full screen</a>

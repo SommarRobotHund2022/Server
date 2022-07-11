@@ -27,7 +27,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    with open("index.html") as f:
+    with open("test.html") as f:
         return Response(f.read(), mimetype="text/html")
 
 

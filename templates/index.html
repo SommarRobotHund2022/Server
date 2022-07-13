@@ -1,5 +1,6 @@
+<!DOCTYPE html>
 <head>
-    <link rel="stylesheet" href="static/css/test.css">
+    <link rel="stylesheet" href="../static/css/test.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script>
         window.addEventListener("load", onLoad1);
@@ -74,15 +75,45 @@
         /* This id must be used to stop your function interval */
         // var id = setInterval(mySynFunc, 5000, '/log');
 
+        var polling_alerts = (url) => {
+            txt = GET(url)
+            if (txt.includes("AR:1")) {
+                document.getElementById("h1").innerHTML = "Dog 1: I'm stuck!";
+                document.getElementById("h1").style.color = "red";
+            }
+            else if (txt.includes("AR:2")) {
+                document.getElementById("h2").innerHTML = "Dog 2: I'm stuck!";
+                document.getElementById("h2").style.color = "red";
+            }
+            else if (txt.includes("AR:12")) {
+                document.getElementById("h1").innerHTML = "Dog 1: I'm stuck!";
+                document.getElementById("h1").style.color = "red";
+                document.getElementById("h2").innerHTML = "Dog 2: I'm stuck!";
+                document.getElementById("h2").style.color = "red";
+            }
+
+            if (txt.includes("ARD:1")) {
+                document.getElementById("h1").innerHTML = "Dog 1: Operational";
+                document.getElementById("h1").style.color = "black";
+            }
+            else if (txt.includes("ARD:2")) {
+                document.getElementById("h2").innerHTML = "Dog 2: Operational";
+                document.getElementById("h2").style.color = "black";
+            }
+            else if (txt.includes("ARD:12")) {
+                document.getElementById("h1").innerHTML = "Dog 1: Operational";
+                document.getElementById("h1").style.color = "black";
+                document.getElementById("h2").innerHTML = "Dog 2: Operational";
+                document.getElementById("h2").style.color = "black";
+            }
+
+        }
+
+        var id = setInterval(polling_alerts, 2000, '/alerts');
 
         document.addEventListener('keydown', (e) => {
             GET_CTRL(`KC: ${e.keyCode}`)
         });
-
-        function change() {
-            console.log("hello")
-            document.getElementById("text_info").innerHTML = "green";
-        }
     </script>
 </head>
 <body>
@@ -115,9 +146,9 @@
         </div>
     </div>
 
-    <div id="text_info" onclick="change()">
-        DOG 1: Stuck
-        DOG 2: Operational
+    <div id="text_info">
+        <h1 id="h1">DOG 1: Operational</h1> <br>
+        <h1 id="h2">DOG 2: {{info1}}</h1>
     </div>
 
     <div class="right">    
@@ -130,13 +161,13 @@
             <a href="/" class="bn6">Full screen</a>
         </div>
         <div class="SAABlogo">
-            <img id="SAABlogo" src="static/pictures/saab_logo.png" alt="Saab logo">
+            <img id="SAABlogo" src="../static/pictures/saab_logo.png" alt="Saab logo">
         </div>
     </div>
 
     
     <div class="belowmenu1">
-        <img id="bittle" src="static/pictures/petoi-bittle-robot-dog-stem-fun-1_1.jpg" alt="Picture of Bittle">
+        <img id="bittle" src="../static/pictures/petoi-bittle-robot-dog-stem-fun-1_1.jpg" alt="Picture of Bittle">
     </div>
-    <img id="speechbub" src="static/pictures/BittleInstructionSpeechBubble.png" alt="Bittle speech bubble">
+    <img id="speechbub" src="../static/pictures/BittleInstructionSpeechBubble.png" alt="Bittle speech bubble">
 </body>

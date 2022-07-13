@@ -107,6 +107,14 @@ label {
     width: 60%;
 }
 
+#text_info{
+  margin-left: 25%;
+  position: absolute;
+  margin-top: 5%;
+  color: Black;
+  font-size: 1vw;
+}
+
 #speechbub{
     position: absolute;
     width: 27%;

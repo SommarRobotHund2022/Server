@@ -18,7 +18,6 @@ sub_sock_daemon.connect('tcp://192.168.137.71:2271') #Can't bind this one in the
 sub_sock_daemon.setsockopt_string(zmq.SUBSCRIBE, '')
 
 #dog 2 serial socket, same as above, as mentioened above a subscriber can subscribe to many publishers
-sub_sock_daemon = context.socket(zmq.SUB)
 sub_sock_daemon.connect('tcp://192.168.137.234:2271')
 sub_sock_daemon.setsockopt_string(zmq.SUBSCRIBE, '')
 
@@ -43,22 +42,26 @@ timer_dog1 = 0
 timer_dog2 = 0
 
 def recive_logs():
-    global log
+    global log_dog1
+    global log_dog2
+    global info_dog_1
+    global info_dog_2
     while True:
         r = sub_sock_daemon.recv().decode('utf-8')
         # add in diffrent logs for dog 1 and dog 2
-        if r.find("D1"):
+        if (r.find("D1:") != -1):
             if len(log_dog1) > 10:
                 log_dog1.clear()
-            log_dog1.append(r)
-        if r.find("D2"):
+            log_dog1.append(r.replace('D1:', '').strip()) # Remove the dog 1 tag
+        
+        if (r.find("D2:") != -1):
             if len(log_dog2) > 10:
                 log_dog2.clear()
-            log_dog2.append(r)
+            log_dog2.append(r.replace("D2:", "").strip()) # Remove the dog 2 tag
         # if it start reciving from daemon it is online, but might not yet have started (since the Daemon starts when the pi starts not when the dog starts)
-        if info_dog_1 == "Offline" and r.find("D1"):
+        if ((info_dog_1 == "Offline") and (r.find("D1:") != -1)):
             info_dog_1 = "Online"
-        if info_dog_2 == "Oflline" and r.find("D2"):
+        if ((info_dog_2 == "Oflline") and (r.find("D2:") != -1)):
             info_dog_2 = "Online"
 
 t = threading.Thread(target=recive_logs, daemon=True )
@@ -70,19 +73,20 @@ def recive_alerts():
     global timer_dog2
     while True:
         r = sub_sock_alerts.recv().decode('utf-8')
-        if (r.find("D1")):
+        print(r)
+        if (r.find("D1: Stuck") != -1):
             info_dog_1 = "Help"
             #timer_dog1 is to check if it went offline (Should many be changed to Online, and let logs decide to toggle 
             # offline in kinda the same way, se comments in the recive_logs function why)
             timer_dog1 += 1
-        elif (r.find("D1")):
+        elif (r.find("D1: Operational") != -1):
             info_dog_1 = "Operational"
             timer_dog1 += 1
 
-        if (r.find("D2")):
+        if (r.find("D2: Stuck") != -1):
             info_dog_2 = "Help"
             timer_dog2 += 1
-        elif (r.find("D2")):
+        elif (r.find("D2: Operational") != -1):
             info_dog_2 = "Operational"
             timer_dog2 += 1
         
@@ -90,7 +94,6 @@ t2 = threading.Thread(target=recive_alerts, daemon=True )
 
 app = Flask(__name__)
 
-# TODO: If time change to Online instead, see above comment why
 def check_if_dog_offline():
     while True:
         global info_dog_1
@@ -98,14 +101,14 @@ def check_if_dog_offline():
         old_timervalue_dog1 = timer_dog1
         old_timervalue_dog2 = timer_dog2
 
-        sleep(15) # Seems like a good value
+        sleep(17) # Seems like a good value
 
-        # if the value hasnt changed anything in 15 seconds the dog probably went offline
+        # if the value hasnt changed anything in 15 seconds the dog probably stopped, but not for certainty did it go Offline (prob tho, but shoud´ld be handeled by the daemon)
         if(old_timervalue_dog1 == timer_dog1):
-            info_dog_1 = "Offline"
+            info_dog_1 = "Online"
 
-        if(old_timervalue_dog2 == timer_dog1):
-            info_dog_2 = "Offline"
+        if(old_timervalue_dog2 == timer_dog2):
+            info_dog_2 = "Online"
 
 t3 = threading.Thread(target=check_if_dog_offline, daemon=True )
 
@@ -153,7 +156,7 @@ def alerts():
     return Response(out)
 
 #Not the best solution, but it has 2 endpoints depending if you want dog 1 or dog 2:s log. (is decided from the localstorage on the web which one to get)
-@app.route('/log_1')
+@app.route('/log1')
 def logger():
     out = ''
     for i in reversed(log_dog1):
@@ -162,8 +165,8 @@ def logger():
     return Response(out)
 
 #Log 2
-@app.route('/log_2')
-def logger():
+@app.route('/log2')
+def logger2():
     out = ''
     for i in reversed(log_dog2):
         out += i

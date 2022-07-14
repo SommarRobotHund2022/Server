@@ -54,7 +54,7 @@
                 cmd = "D1: " + cmd
             }
             else if (dog == "ST: DOG2") {
-                cmd += "D2: " + cmd
+                cmd = "D2: " + cmd
             }
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.open( "GET", `/ctrl?cmd=${cmd}`, false ); // false for synchronous request

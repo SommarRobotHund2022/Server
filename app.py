@@ -14,11 +14,7 @@ The same goes for the other direction, make sure the "dogs" sends an identifier 
 # Try to bind as many as possible in the server, static ip will always be 192.168.137.1 as long as the server is runned on the same computer hosting the hotspot
 #dog 1 serial socket
 sub_sock_daemon = context.socket(zmq.SUB)
-sub_sock_daemon.connect('tcp://192.168.137.71:2271') #Can't bind this one in the server, it also needs to connect in auto.py and if sub is the one to bind another sub can't connect, and it needs to connect to the other dog aswell
-sub_sock_daemon.setsockopt_string(zmq.SUBSCRIBE, '')
-
-#dog 2 serial socket, same as above, as mentioened above a subscriber can subscribe to many publishers
-sub_sock_daemon.connect('tcp://192.168.137.234:2271')
+sub_sock_daemon.connect('tcp://192.168.137.1:2276') #Can't bind this one in the server, it also needs to connect in auto.py and if sub is the one to bind another sub can't connect, and it needs to connect to the other dog aswell
 sub_sock_daemon.setsockopt_string(zmq.SUBSCRIBE, '')
 
 # Bind the socket for communication to the clients (Pi:s, dogs whatever)
@@ -31,6 +27,13 @@ sub_sock_alerts = context.socket(zmq.SUB)
 sub_sock_alerts.bind('tcp://192.168.137.1:2274')
 sub_sock_alerts.setsockopt(zmq.SUBSCRIBE, b'')
 
+xsub_sock = context.socket(zmq.XSUB)
+xpub_sock = context.socket(zmq.XPUB)
+
+# PROXY
+xsub_sock.bind('tcp://192.168.137.1:2275')
+xpub_sock.bind('tcp://192.168.137.1:2276')
+
 #Logs for dogs, hihi
 log_dog1 = ['log start']
 log_dog2 = ['log start']
@@ -40,6 +43,11 @@ info_dog_2 = "Offline" # It only recives a message from the auto script right no
 
 timer_dog1 = 0
 timer_dog2 = 0
+
+def start_proxy():
+    zmq.proxy(xsub_sock, xpub_sock)
+
+t4 = threading.Thread(target=start_proxy, daemon=True)
 
 def recive_logs():
     global log_dog1
@@ -59,9 +67,10 @@ def recive_logs():
                 log_dog2.clear()
             log_dog2.append(r.replace("D2:", "").strip()) # Remove the dog 2 tag
         # if it start reciving from daemon it is online, but might not yet have started (since the Daemon starts when the pi starts not when the dog starts)
+        print(r)
         if ((info_dog_1 == "Offline") and (r.find("D1:") != -1)):
             info_dog_1 = "Online"
-        if ((info_dog_2 == "Oflline") and (r.find("D2:") != -1)):
+        if ((info_dog_2 == "Offline") and (r.find("D2:") != -1)):
             info_dog_2 = "Online"
 
 t = threading.Thread(target=recive_logs, daemon=True )
@@ -104,10 +113,10 @@ def check_if_dog_offline():
         sleep(17) # Seems like a good value
 
         # if the value hasnt changed anything in 15 seconds the dog probably stopped, but not for certainty did it go Offline (prob tho, but shoud´ld be handeled by the daemon)
-        if(old_timervalue_dog1 == timer_dog1):
+        if(old_timervalue_dog1 == timer_dog1 and (info_dog_1 == "D1: Operational" or info_dog_1 == "D1: Stuck")):
             info_dog_1 = "Online"
 
-        if(old_timervalue_dog2 == timer_dog2):
+        if(old_timervalue_dog2 == timer_dog2 and (info_dog_1 == "D2: Operational" or info_dog_1 == "D2: Stuck")):
             info_dog_2 = "Online"
 
 t3 = threading.Thread(target=check_if_dog_offline, daemon=True )
@@ -175,6 +184,8 @@ def logger2():
 
 #Start all necessary threads and runs the web-app
 if __name__== "__main__":
+    t4.start()
+    sleep(20)
     t.start()
     t2.start()
     t3.start()

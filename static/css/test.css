@@ -151,19 +151,15 @@ label {
 }
 
 .logBorder {
+    display: block;
+    overflow: hidden;
+    width: 99%;
+    margin-top: 6%;
+    float: left;
     border-style: dotted;
     border-width: 1px;
-    border-color: #000;
-    position: relative;
-    margin-top: 10px;
-    width: 20em;
-    height: 100%;
+    border-color: rgb(0, 0, 0);
     border-radius: 10px;
-    display: block;
-    margin-top: 0em;
-    margin-bottom: 100em;
-    margin-left: 0;
-    margin-right: 0;
   }
 
 #bittle:hover {

@@ -14,9 +14,10 @@
             }
         }
 
+        // Needs to check some values from localstorage due to the switches, they need to fetch their value and set the toggleboxex to value they where before
         function onLoad1() {
-            var state = localStorage.getItem("lastState");
-            var dog = localStorage.getItem("dog");
+            let state = localStorage.getItem("lastState");
+            let dog = localStorage.getItem("dog");
 
             if (state == "MD: MANUAL") {
                 document.getElementById("toggle1").checked = true;
@@ -38,6 +39,7 @@
             GET_CTRL(dog);
         }
 
+        // Since there is a small animation when toggleboxes are switched it needs to wait for some time before showing them or it looks ugly
         var delayInMilliseconds = 70;
 
          setTimeout(function() {
@@ -45,6 +47,7 @@
             document.getElementById("toggle2").style.visibility = "visible";
         }, delayInMilliseconds);
 
+        // send values to server
         function GET_CTRL(cmd) {
             
             var xmlHttp = new XMLHttpRequest();
@@ -52,6 +55,7 @@
             xmlHttp.send( null );
         }
 
+        // fetch values from server
         function GET(url) {
             
             var xmlHttp = new XMLHttpRequest();
@@ -60,60 +64,74 @@
             return xmlHttp.responseText
         }
 
-        // var mySynFunc = (url) => {
-        //     console.log("update!!")
-        //     txt = GET(url)
-        //     if (txt.includes('Movement detected') && txt.indexOf('Movement detected') < 10)
-        //     {
-        //         alert("!!MOVEMENT!!")
-        //     }
-        //     if(txt != null){
-        //         document.getElementById('log').innerHTML = txt
-        //     }
-        // }
+        // basic polling, fetches new logs from server every second
+        var mySynFunc = (url) => {
+            txt = GET(url)
+            document.getElementById('log1').innerHTML = txt
+        }
 
-        /* This id must be used to stop your function interval */
-        // var id = setInterval(mySynFunc, 5000, '/log');
+        // Gets log from right dog depending on the dog toggle switch
+        let dog = localStorage.getItem("dog");
+        if (dog == "ST: DOG1") {
+            /* This id must be used to stop your function interval */
+            var id = setInterval(mySynFunc, 2000, '/log_1');
+        }
+        else if (dog == "ST: DOG2") {
+            /* This id must be used to stop your function interval */
+            var id = setInterval(mySynFunc, 2000, '/log_2');
+        }
 
+        // basic polling, fetches new alerts from server every second
         var polling_alerts = (url) => {
             txt = GET(url)
             if (txt.includes("AR:1")) {
                 document.getElementById("h1").innerHTML = "Dog 1: I'm stuck!";
                 document.getElementById("h1").style.color = "red";
             }
-            else if (txt.includes("AR:2")) {
+            if (txt.includes("AR:2")) {
                 document.getElementById("h2").innerHTML = "Dog 2: I'm stuck!";
                 document.getElementById("h2").style.color = "red";
             }
-            else if (txt.includes("AR:12")) {
-                document.getElementById("h1").innerHTML = "Dog 1: I'm stuck!";
-                document.getElementById("h1").style.color = "red";
-                document.getElementById("h2").innerHTML = "Dog 2: I'm stuck!";
-                document.getElementById("h2").style.color = "red";
-            }
-
             if (txt.includes("ARD:1")) {
                 document.getElementById("h1").innerHTML = "Dog 1: Operational";
                 document.getElementById("h1").style.color = "black";
             }
-            else if (txt.includes("ARD:2")) {
+            if (txt.includes("ARD:2")) {
                 document.getElementById("h2").innerHTML = "Dog 2: Operational";
                 document.getElementById("h2").style.color = "black";
             }
-            else if (txt.includes("ARD:12")) {
-                document.getElementById("h1").innerHTML = "Dog 1: Operational";
+            if (txt.includes("OF:1")) {
+                document.getElementById("h1").innerHTML = "Dog 1: Offline";
                 document.getElementById("h1").style.color = "black";
-                document.getElementById("h2").innerHTML = "Dog 2: Operational";
+            }
+            if (txt.includes("OF:2")) {
+                document.getElementById("h2").innerHTML = "Dog 2: Offline";
                 document.getElementById("h2").style.color = "black";
             }
-
+            if (txt.includes("ON:1")) {
+                document.getElementById("h1").innerHTML = "Dog 1: Online";
+                document.getElementById("h1").style.color = "black";
+            }
+            if (txt.includes("ON:2")) {
+                document.getElementById("h2").innerHTML = "Dog 2: Online";
+                document.getElementById("h2").style.color = "black";
+            }
         }
 
-        var id = setInterval(polling_alerts, 2000, '/alerts');
+        var id1 = setInterval(polling_alerts, 1000, '/alerts');
 
+        // fetches keystrokes and sends them to server
         document.addEventListener('keydown', (e) => {
-            GET_CTRL(`KC: ${e.keyCode}`)
+            let dog = localStorage.getItem("dog");
+            if (dog == "ST: DOG1") {
+                GET_CTRL(`D1: KC: ${e.keyCode}`)
+            }
+            else if (dog == "ST: DOG2") {
+                GET_CTRL(`D2: KC: ${e.keyCode}`)
+            }
+            
         });
+
     </script>
 </head>
 <body>
@@ -141,14 +159,13 @@
                 <div>Dog 2</div>
             </label>
         </div>
-        <div class="log">
-            <input class="logBorder" readonly="readonly"></input>
+        <div class="logBorder" id="log1">
         </div>
     </div>
 
     <div id="text_info">
-        <h1 id="h1">DOG 1: Operational</h1> <br>
-        <h1 id="h2">DOG 2: {{info1}}</h1>
+        <h1 id="h1">Dog 1: Offline</h1> <br>
+        <h1 id="h2">Dog 2: Offline</h1>
     </div>
 
     <div class="right">    

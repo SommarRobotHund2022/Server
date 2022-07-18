@@ -13,8 +13,8 @@ $ sudo cp server.service /etc/systemd/system/
 $ sudo cp camera.service /etc/systemd/system/
 $ sudo systemctl enable server
 $ sudo systemctl enable camera
-$ sudo sstemctl start server
-$ sudo sstemctl start camera
+$ sudo systemctl start server
+$ sudo systemctl start camera
 ```
 ## Auto
 ```

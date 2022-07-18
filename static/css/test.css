@@ -108,17 +108,36 @@ label {
 }
 
 #text_info{
-  margin-left: 25%;
+  margin-left: 22%;
+  width: 22%;
   position: absolute;
-  margin-top: 5%;
+  margin-top: 0.5%;
   color: Black;
   font-size: 1vw;
 }
 
+.dot {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.submit_button {
+  float: right;
+  width: 16%;
+  height: 3vh;
+}
+
+.yeeeesidk{
+  margin-top: 0%;
+  margin-right: 5%;
+  float: right;
+}
 #speechbub{
     position: absolute;
-    width: 27%;
-    top: 35%;
+    width: 23%;
+    top: 40%;
     left: 22%;
 }
 
@@ -154,6 +173,7 @@ label {
     display: block;
     overflow: hidden;
     width: 99%;
+    height: 17vh;
     margin-top: 6%;
     float: left;
     border-style: dotted;

@@ -14,10 +14,12 @@
             }
         }
 
-        // Needs to check some values from localstorage due to the switches, they need to fetch their value and set the toggleboxex to value they where before
+        // Loads values from diffrent things that is needed when the page is reloaded, refreshed or whatever
         function onLoad1() {
             let state = localStorage.getItem("lastState");
             let dog = localStorage.getItem("dog");
+            let state_face1 = localStorage.getItem("state_face1");
+            let state_face2 = localStorage.getItem("state_face2");
 
             if (state == "MD: MANUAL") {
                 document.getElementById("toggle1").checked = true;
@@ -34,12 +36,29 @@
             else {
                 document.getElementById("toggle2").checked = false;
             }
+
+            if (state_face1 == "found"){
+                enable_face("face1")
+            }
+            else {
+                reset_face("face1")
+            }
+
+            if (state_face2 == "found"){
+                enable_face("face2")
+            }
+            else {
+                reset_face("face2")
+            }
             
+            change_dog_info("dog1")
+            change_dog_info("dog2")
+
             GET_CTRL(state);
             GET_CTRL(dog);
         }
 
-        // Since there is a small animation when toggleboxes are switched it needs to wait for some time before showing them or it looks ugly
+        // Since there is a small animation when toggleboxes are switched it needs to wait for some time before showing them or it looks ugly, only happens when page is loaded
         var delayInMilliseconds = 70;
 
          setTimeout(function() {
@@ -76,54 +95,120 @@
             document.getElementById('log1').innerHTML = txt
         }
 
-        // Gets log from right dog depending on the dog toggle switch
-        let dog = localStorage.getItem("dog");
+        function updateLogs() {
+            let dog = localStorage.getItem("dog");
         if (dog == "ST: DOG1") {
-            /* This id must be used to stop your function interval */
-            var id = setInterval(mySynFunc, 2000, '/log1');
+            mySynFunc('/log1')
         }
         else if (dog == "ST: DOG2") {
-            var id = setInterval(mySynFunc, 2000, '/log2');
+            mySynFunc('/log2')
         }
+        }
+        /* This id must be used to stop your function interval */
+        var id = setInterval(updateLogs, 200)
 
         // basic polling, fetches new alerts from server every second
-        var polling_alerts = (url) => {
+        // with usage of localstorage the variables will be saved even tho the site is refreshed, 
+        //if server is restarted they will go back to defalut (offline) except face req (needs to be reseted manually)
+        var pollingAlerts = (url) => {
             txt = GET(url)
             if (txt.includes("AR:1")) {
-                document.getElementById("h1").innerHTML = "Dog 1: I'm stuck!";
-                document.getElementById("h1").style.color = "red";
+                localStorage.setItem("d1_state", "I'm stuck!")
+                localStorage.setItem("d1_color", "red")
+                change_dog_info("dog1")
             }
             if (txt.includes("AR:2")) {
-                document.getElementById("h2").innerHTML = "Dog 2: I'm stuck!";
-                document.getElementById("h2").style.color = "red";
+                localStorage.setItem("d2_state", "I'm stuck!")
+                localStorage.setItem("d2_color", "red")
+                change_dog_info("dog2")
             }
             if (txt.includes("ARD:1")) {
-                document.getElementById("h1").innerHTML = "Dog 1: Operational";
-                document.getElementById("h1").style.color = "black";
+                localStorage.setItem("d1_state", "Operational")
+                localStorage.setItem("d1_color", "black")
+                change_dog_info("dog1")
             }
             if (txt.includes("ARD:2")) {
-                document.getElementById("h2").innerHTML = "Dog 2: Operational";
-                document.getElementById("h2").style.color = "black";
+                localStorage.setItem("d2_state", "Operational")
+                localStorage.setItem("d2_color", "black")
+                change_dog_info("dog2")
             }
             if (txt.includes("OF:1")) {
-                document.getElementById("h1").innerHTML = "Dog 1: Offline";
-                document.getElementById("h1").style.color = "black";
+                localStorage.setItem("d1_state", "Offline")
+                localStorage.setItem("d1_color", "black")
+                change_dog_info("dog1")
             }
             if (txt.includes("OF:2")) {
-                document.getElementById("h2").innerHTML = "Dog 2: Offline";
-                document.getElementById("h2").style.color = "black";
+                localStorage.setItem("d2_state", "Offline")
+                localStorage.setItem("d2_color", "black")
+                change_dog_info("dog2")
             }
             if (txt.includes("ON:1")) {
-                document.getElementById("h1").innerHTML = "Dog 1: Online";
-                document.getElementById("h1").style.color = "black";
+                localStorage.setItem("d1_state", "Online")
+                localStorage.setItem("d1_color", "black")
+                change_dog_info("dog1")
             }
             if (txt.includes("ON:2")) {
-                document.getElementById("h2").innerHTML = "Dog 2: Online";
-                document.getElementById("h2").style.color = "black";
+                localStorage.setItem("d2_state", "Online")
+                localStorage.setItem("d2_color", "black")
+                change_dog_info("dog2")
+            }
+
+            if (txt.includes("FACE:1")) {
+                enable_face("face1")
+                localStorage.setItem("state_face1", "found");
+            }
+            if (txt.includes("FACE:2")) {
+                enable_face("face2")
+                localStorage.setItem("state_face2", "found");
             }
         }
 
-        var id1 = setInterval(polling_alerts, 1000, '/alerts');
+        var id1 = setInterval(pollingAlerts, 1000, '/alerts');
+
+        // changes the info on dog 1 or dog 2
+        function change_dog_info(dogid) {
+            let dog1_state =  localStorage.getItem("d1_state")
+            let dog1_color =  localStorage.getItem("d1_color")
+            let dog2_state =  localStorage.getItem("d2_state")
+            let dog2_color =  localStorage.getItem("d2_color")
+            if (dogid == "dog1") {
+                document.getElementById("h1").innerHTML = "Dog 1: " + dog1_state;
+                document.getElementById("h1").style.color = dog1_color;
+            }
+            else {
+                document.getElementById("h2").innerHTML = "Dog 2: " + dog2_state;
+                document.getElementById("h2").style.color = dog2_color;
+            }
+        }
+
+        // Lets the user know that an unknown face has been found, also shows a reset button for user to press if reset is wanted
+        function enable_face(face) {
+            if(face == "face1"){
+                document.getElementById("dog1_dot").style.backgroundColor = "red";
+                document.getElementById("face1").innerHTML = "Unknown face detected";
+                document.getElementById("reset1").style.visibility = "visible";
+                
+            }
+            else {
+                document.getElementById("dog2_dot").style.backgroundColor = "red";
+                document.getElementById("face2").innerHTML = "Unknown face detected";
+                document.getElementById("reset2").style.visibility = "visible";
+            }
+        }
+
+        // Sets the dot, color and text back to original, also hiddes reset button since there is nothing to reset
+        function reset_face(face) {
+            if (face == "face1") {
+                document.getElementById("dog1_dot").style.backgroundColor = 'rgb(' + 47 + ',' + 218 + ',' + 13 + ')';
+                document.getElementById("face1").innerHTML = "No humans detected";
+                document.getElementById("reset1").style.visibility = "hidden";
+            }
+            else {
+                document.getElementById("dog2_dot").style.backgroundColor = 'rgb(' + 47 + ',' + 218 + ',' + 13 + ')';
+                document.getElementById("face2").innerHTML = "No humans detected";
+                document.getElementById("reset2").style.visibility = "hidden";
+            }
+        }
 
         // fetches keystrokes and sends them to server
         document.addEventListener('keydown', (e) => {
@@ -164,7 +249,29 @@
 
     <div id="text_info">
         <h1 id="h1">Dog 1: Offline</h1> <br>
+        <span class="dot" id="dog1_dot"></span>
+        <button type="button" class="submit_button" id="reset1">Reset?</button>
+        <script>
+            document.getElementById("reset1").addEventListener("click", reset1);
+
+            function reset1() {
+            reset_face("face1");
+            localStorage.setItem("state_face1", "not_found");
+            }
+        </script>
+        <h3 class="yeeeesidk" id="face1"></h3>
         <h1 id="h2">Dog 2: Offline</h1>
+        <span class="dot" id="dog2_dot"></span>
+        <button type="button" class="submit_button" id="reset2">Reset?</button>
+        <script>
+            document.getElementById("reset2").addEventListener("click", reset1);
+
+            function reset1() {
+            reset_face("face2");
+            localStorage.setItem("state_face2", "not_found");
+            }
+        </script>
+        <h3 class="yeeeesidk" id="face2"></h3>
     </div>
 
     <div class="right">    
@@ -183,7 +290,7 @@
 
     
     <div class="belowmenu1">
-        <img id="bittle" src="../static/pictures/petoi-bittle-robot-dog-stem-fun-1_1.jpg" alt="Picture of Bittle">
+        <img id="bittle" src="../static/pictures/Petoi-dog.png" alt="Picture of Bittle">
     </div>
     <img id="speechbub" src="../static/pictures/BittleInstructionSpeechBubble.png" alt="Bittle speech bubble">
 </body>

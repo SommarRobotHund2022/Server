@@ -139,7 +139,7 @@ def check_if_dog_offline():
 
         sleep(17) # Seems like a good value
 
-        # if the value hasnt changed anything in 15 seconds the dog probably stopped, but not for certainty did it go Offline (prob tho, but shoud´ld be handeled by the daemon)
+        # if the value hasnt changed anything in 15 seconds the dog probably stopped, but not for certainty did it go Offline (prob tho, but should be handeled by the daemon)
         if(old_timervalue_dog1 == timer_dog1 and (info_dog_1 == commands.get("D1_op") or info_dog_1 == commands.get("D1_st"))):
             info_dog_1 = commands.get("On")
 

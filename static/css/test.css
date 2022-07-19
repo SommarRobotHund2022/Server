@@ -23,6 +23,10 @@ label {
     border-radius: 10px;
 }
 
+#iframe {
+  height: 80vh;
+}
+
 #labelstuff{
     width: 98%;
     font-size: 1vw;

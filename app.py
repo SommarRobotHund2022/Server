@@ -1,4 +1,5 @@
 from ast import Global
+from glob import glob
 import threading
 from time import sleep
 from tkinter.messagebox import NO
@@ -35,8 +36,7 @@ Therefore indentifier are needed when sending things over the sockets. Like if y
 The same goes for the other direction, make sure the "dogs" sends an identifier when trying to send information with Dog 1: D1:, Dog 2: D2:
 """
 # TODO: maby move sockets and threading stuff to its own files for structure
-# Try to bind as many as possible in the server, static ip will always be 192.168.137.1 as long as the server is runned on the same computer hosting the hotspot
-#dog 1 serial socket
+# Try to bind as many as possible in the server, the server automatically checks its ip and uses that
 
 # PROXY
 xsub_sock = context.socket(zmq.XSUB)
@@ -45,7 +45,7 @@ xsub_sock.bind(commands.get("sock_2275"))
 xpub_sock.bind(commands.get("sock_2276"))
 
 sub_sock_daemon = context.socket(zmq.SUB)
-sub_sock_daemon.connect(commands.get("sock_2276")) #Can't bind this one in the server, it also needs to connect in auto.py and if sub is the one to bind another sub can't connect, and it needs to connect to the other dog aswell
+sub_sock_daemon.connect(commands.get("sock_2276"))
 sub_sock_daemon.setsockopt_string(zmq.SUBSCRIBE, '')
 
 # Bind the socket for communication to the clients (Pi:s, dogs whatever)
@@ -65,6 +65,8 @@ info_dog_2 = commands.get("Off") # It only recives a message from the auto scrip
 
 timer_dog1 = 0
 timer_dog2 = 0
+timer_log_dog1 = 0
+timer_log_dog2 = 0
 
 def start_proxy():
     zmq.proxy(xsub_sock, xpub_sock)
@@ -76,20 +78,23 @@ def recive_logs():
     global log_dog2
     global info_dog_1
     global info_dog_2
+    global timer_log_dog1
+    global timer_log_dog2
     while True:
         r = sub_sock_daemon.recv().decode('utf-8')
         # add in diffrent logs for dog 1 and dog 2
         if (r.find(commands.get("D1")) != -1):
+            timer_log_dog1 += 1
             if len(log_dog1) > 10:
                 log_dog1.clear()
             log_dog1.append(r.replace(commands.get("D1"), '').strip()) # Remove the dog 1 tag
         
         if (r.find(commands.get("D2")) != -1):
+            timer_log_dog2 += 1
             if len(log_dog2) > 10:
                 log_dog2.clear()
             log_dog2.append(r.replace(commands.get("D2"), "").strip()) # Remove the dog 2 tag
         # if it start reciving from daemon it is online, but might not yet have started (since the Daemon starts when the pi starts not when the dog starts)
-        print(r)
         if ((info_dog_1 == commands.get("Off")) and (r.find(commands.get("D1")) != -1)):
             info_dog_1 = commands.get("On")
         if ((info_dog_2 == commands.get("Off")) and (r.find(commands.get("D2")) != -1)):
@@ -106,8 +111,7 @@ def recive_alerts():
         r = sub_sock_alerts.recv().decode('utf-8')
         if (r.find(commands.get("D1_st")) != -1):
             info_dog_1 = commands.get("He")
-            #timer_dog1 is to check if it went offline (Should many be changed to Online, and let logs decide to toggle 
-            # offline in kinda the same way, se comments in the recive_logs function why)
+            #timer_dog1 is to check if it went online, bit weird but practically means that the manuell_auto.py script has stopped, dosnt mean the pi is off
             timer_dog1 += 1
         elif (r.find(commands.get("D1_op")) != -1):
             info_dog_1 = commands.get("Op")
@@ -128,9 +132,25 @@ def recive_alerts():
         
 t2 = threading.Thread(target=recive_alerts, daemon=True )
 
-app = Flask(__name__)
+
 
 def check_if_dog_offline():
+    while True:
+        global info_dog_1
+        global info_dog_2
+        old_timervalue_log_dog1 = timer_log_dog1
+        old_timervalue_log_dog2 = timer_log_dog2
+
+        sleep(3) # should be enough, if a pi is ON it sends a new log value like every second isch, so a sleep for 3 seconds should be more then enough
+        if(old_timervalue_log_dog1 == timer_log_dog1):
+            info_dog_1 = commands.get("Off")
+
+        if(old_timervalue_log_dog2 == timer_log_dog2):
+            info_dog_2 = commands.get("Off")
+
+t5 = threading.Thread(target=check_if_dog_offline, daemon=True )
+
+def check_if_dog_online():
     while True:
         global info_dog_1
         global info_dog_2
@@ -146,7 +166,7 @@ def check_if_dog_offline():
         if(old_timervalue_dog2 == timer_dog2 and (info_dog_1 == commands.get("D2_op") or info_dog_1 == commands.get("D2_st"))):
             info_dog_2 = commands.get("On")
 
-t3 = threading.Thread(target=check_if_dog_offline, daemon=True )
+t3 = threading.Thread(target=check_if_dog_online, daemon=True )
 
 #Renders the start page from template
 @app.route('/')
@@ -220,9 +240,10 @@ def logger2():
 #Start all necessary threads and runs the web-app
 if __name__== "__main__":
     t4.start()
-    sleep(5)
+    sleep(5) # Proxy might need some time to start, might even need longer than this, no harm in starting sooner but the values from the proxy might be slow to arive
     t.start()
     t2.start()
     t3.start()
+    t5.start()
     app.run(host="0.0.0.0", port="8080")
     

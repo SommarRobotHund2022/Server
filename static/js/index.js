@@ -100,7 +100,7 @@ else if (dog == "ST: DOG2") {
 }
 }
 /* This id must be used to stop your function interval */
-var id = setInterval(updateLogs, 200)
+var id = setInterval(updateLogs, 600)
 
 // basic polling, fetches new alerts from server every second
 // with usage of localstorage the variables will be saved even tho the site is refreshed, 

@@ -87,10 +87,10 @@ class ThreadSocketHandler:
                     self.log_dog2.clear()
                 self.log_dog2.append(r.replace(commands.get("D2"), "").strip()) # Remove the dog 2 tag
             # if it start reciving from daemon it is online, but might not yet have started (since the Daemon starts when the pi starts not when the dog starts)
-            if ((info_dog_1 == commands.get("Off")) and (r.find(commands.get("D1")) != -1)):
-                info_dog_1 = commands.get("On")
-            if ((info_dog_2 == commands.get("Off")) and (r.find(commands.get("D2")) != -1)):
-                info_dog_2 = commands.get("On")
+            if ((self.info_dog_1 == commands.get("Off")) and (r.find(commands.get("D1")) != -1)):
+                self.info_dog_1 = commands.get("On")
+            if ((self.info_dog_2 == commands.get("Off")) and (r.find(commands.get("D2")) != -1)):
+                self.info_dog_2 = commands.get("On")
 
     #started with a thread
     def recive_alerts(self):

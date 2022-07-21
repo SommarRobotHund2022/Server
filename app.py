@@ -40,6 +40,12 @@ def alerts():
     elif(tsh.info_dog_1 == commands.get("Face")):
         tsh.info_dog_1 = "" #Resets this one here, is needed cuz the reset is taken care from in the frontend, this will mess things upp if removed
         out = "FACE:1"
+    elif(tsh.info_dog_1 == commands.get("Au")):
+        tsh.info_dog_1 = "" #Resets this one here, is needed cuz the reset is taken care from in the frontend, this will mess things upp if removed
+        out = "Auto:"
+    elif(tsh.info_dog_1 == commands.get("Ma")):
+        tsh.info_dog_1 = "" #Resets this one here, is needed cuz the reset is taken care from in the frontend, this will mess things upp if removed
+        out = "Manual:"
 
     #Dog 2
     if(tsh.info_dog_2 == commands.get("He")):
@@ -53,6 +59,12 @@ def alerts():
     elif(tsh.info_dog_2 == commands.get("Face")):
         tsh.info_dog_2 = "" #Resets this one here, is needed cuz the reset is taken care from in the frontend, this will mess things upp if removed
         out = "FACE:2"
+    elif(tsh.info_dog_2 == commands.get("Au")):
+        tsh.info_dog_2 = "" #Resets this one here, is needed cuz the reset is taken care from in the frontend, this will mess things upp if removed
+        out = "Auto:"
+    elif(tsh.info_dog_2 == commands.get("Ma")):
+        tsh.info_dog_2 = "" #Resets this one here, is needed cuz the reset is taken care from in the frontend, this will mess things upp if removed
+        out = "Manual:"
 
     return Response(out)
 

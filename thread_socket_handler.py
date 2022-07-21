@@ -106,6 +106,12 @@ class ThreadSocketHandler:
             elif (r.find(commands.get("D1_face")) != -1):
                 self.info_dog_1 = commands.get("Face")
                 self.timer_dog1 += 1
+            elif (r.find(commands.get("D1_au")) != -1):
+                self.info_dog_1 = commands.get("Au")
+                self.timer_dog1 += 1
+            elif (r.find(commands.get("D1_ma")) != -1):
+                self.info_dog_1 = commands.get("Ma")
+                self.timer_dog1 += 1
 
             if (r.find(commands.get("D2_st")) != -1):
                 self.info_dog_2 = commands.get("He")
@@ -115,6 +121,12 @@ class ThreadSocketHandler:
                 self.timer_dog2 += 1
             elif (r.find(commands.get("D2_face")) != -1):
                 self.info_dog_2 = commands.get("Face")
+                self.timer_dog2 += 1
+            elif (r.find(commands.get("D2_au")) != -1):
+                self.info_dog_2 = commands.get("Au")
+                self.timer_dog2 += 1
+            elif (r.find(commands.get("D2_ma")) != -1):
+                self.info_dog_2 = commands.get("Ma")
                 self.timer_dog2 += 1
 
     #started with a thread          

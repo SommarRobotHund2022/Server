@@ -156,6 +156,18 @@ var pollingAlerts = (url) => {
         enable_face("face2")
         localStorage.setItem("state_face2", "found");
     }
+
+    if (txt.includes("Manual:")) {
+        storestate("MD: MANUAL")
+        document.getElementById("toggle1").checked = true;
+        document.getElementById("toggle").checked = true;
+    }
+
+    if (txt.includes("Auto:")) {
+        storestate("MD: AUTO")
+        document.getElementById("toggle1").checked = false;
+    }
+
 }
 
 var id1 = setInterval(pollingAlerts, 1000, '/alerts');

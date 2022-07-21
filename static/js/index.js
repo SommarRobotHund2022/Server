@@ -33,21 +33,21 @@ function onLoad1() {
     }
 
     if (state_face1 == "found"){
-        enable_face("face1")
+        enable_face("face1");
     }
     else {
-        reset_face("face1")
+        reset_face("face1");
     }
 
     if (state_face2 == "found"){
-        enable_face("face2")
+        enable_face("face2");
     }
     else {
-        reset_face("face2")
+        reset_face("face2");
     }
     
-    change_dog_info("dog1")
-    change_dog_info("dog2")
+    change_dog_info("dog1");
+    change_dog_info("dog2");
 
     GET_CTRL(state);
     GET_CTRL(dog);
@@ -65,10 +65,10 @@ var delayInMilliseconds = 70;
 function GET_CTRL(cmd) {
     let dog = localStorage.getItem("dog");
     if (dog == "ST: DOG1") {
-        cmd = "D1: " + cmd
+        cmd = "D1: " + cmd;
     }
     else if (dog == "ST: DOG2") {
-        cmd = "D2: " + cmd
+        cmd = "D2: " + cmd;
     }
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open( "GET", `/ctrl?cmd=${cmd}`, false ); // false for synchronous request
@@ -93,10 +93,10 @@ var mySynFunc = (url) => {
 function updateLogs() {
     let dog = localStorage.getItem("dog");
 if (dog == "ST: DOG1") {
-    mySynFunc('/log1')
+    mySynFunc('/log1');
 }
 else if (dog == "ST: DOG2") {
-    mySynFunc('/log2')
+    mySynFunc('/log2');
 }
 }
 /* This id must be used to stop your function interval */
@@ -108,44 +108,44 @@ var id = setInterval(updateLogs, 600)
 var pollingAlerts = (url) => {
     txt = GET(url)
     if (txt.includes("AR:1")) {
-        localStorage.setItem("d1_state", "I'm stuck!")
-        localStorage.setItem("d1_color", "red")
-        change_dog_info("dog1")
+        localStorage.setItem("d1_state", "I'm stuck!");
+        localStorage.setItem("d1_color", "red");
+        change_dog_info("dog1");
     }
     if (txt.includes("AR:2")) {
-        localStorage.setItem("d2_state", "I'm stuck!")
-        localStorage.setItem("d2_color", "red")
-        change_dog_info("dog2")
+        localStorage.setItem("d2_state", "I'm stuck!");
+        localStorage.setItem("d2_color", "red");
+        change_dog_info("dog2");
     }
     if (txt.includes("ARD:1")) {
-        localStorage.setItem("d1_state", "Operational")
-        localStorage.setItem("d1_color", "black")
-        change_dog_info("dog1")
+        localStorage.setItem("d1_state", "Operational");
+        localStorage.setItem("d1_color", "black");
+        change_dog_info("dog1");
     }
     if (txt.includes("ARD:2")) {
-        localStorage.setItem("d2_state", "Operational")
-        localStorage.setItem("d2_color", "black")
-        change_dog_info("dog2")
+        localStorage.setItem("d2_state", "Operational");
+        localStorage.setItem("d2_color", "black");
+        change_dog_info("dog2");
     }
     if (txt.includes("OF:1")) {
-        localStorage.setItem("d1_state", "Offline")
-        localStorage.setItem("d1_color", "black")
-        change_dog_info("dog1")
+        localStorage.setItem("d1_state", "Offline");
+        localStorage.setItem("d1_color", "black");
+        change_dog_info("dog1");
     }
     if (txt.includes("OF:2")) {
-        localStorage.setItem("d2_state", "Offline")
-        localStorage.setItem("d2_color", "black")
-        change_dog_info("dog2")
+        localStorage.setItem("d2_state", "Offline");
+        localStorage.setItem("d2_color", "black");
+        change_dog_info("dog2");
     }
     if (txt.includes("ON:1")) {
-        localStorage.setItem("d1_state", "Online")
-        localStorage.setItem("d1_color", "black")
-        change_dog_info("dog1")
+        localStorage.setItem("d1_state", "Online");
+        localStorage.setItem("d1_color", "black");
+        change_dog_info("dog1");
     }
     if (txt.includes("ON:2")) {
-        localStorage.setItem("d2_state", "Online")
-        localStorage.setItem("d2_color", "black")
-        change_dog_info("dog2")
+        localStorage.setItem("d2_state", "Online");
+        localStorage.setItem("d2_color", "black");
+        change_dog_info("dog2");
     }
 
     if (txt.includes("FACE:1")) {
@@ -158,14 +158,15 @@ var pollingAlerts = (url) => {
     }
 
     if (txt.includes("Manual:")) {
-        storestate("MD: MANUAL")
+        storestate("MD: MANUAL");
         document.getElementById("toggle1").checked = true;
         document.getElementById("toggle").checked = true;
     }
 
     if (txt.includes("Auto:")) {
-        storestate("MD: AUTO")
+        storestate("MD: AUTO");
         document.getElementById("toggle1").checked = false;
+        document.getElementById("toggle").checked = false;
     }
 
 }
@@ -174,10 +175,10 @@ var id1 = setInterval(pollingAlerts, 1000, '/alerts');
 
 // changes the info on dog 1 or dog 2
 function change_dog_info(dogid) {
-    let dog1_state =  localStorage.getItem("d1_state")
-    let dog1_color =  localStorage.getItem("d1_color")
-    let dog2_state =  localStorage.getItem("d2_state")
-    let dog2_color =  localStorage.getItem("d2_color")
+    let dog1_state =  localStorage.getItem("d1_state");
+    let dog1_color =  localStorage.getItem("d1_color");
+    let dog2_state =  localStorage.getItem("d2_state");
+    let dog2_color =  localStorage.getItem("d2_color");
     if (dogid == "dog1") {
         document.getElementById("h1").innerHTML = "Dog 1: " + dog1_state;
         document.getElementById("h1").style.color = dog1_color;

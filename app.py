@@ -20,7 +20,7 @@ def ctrl():
     tsh.pub_sock_pi.send_string(cmd)
     return "gg"
 
-#Get the live feed, this will probably change i tink
+#Get the live feed, this will probably change i tiqnk
 @app.route('/feed')
 def feed():
     return redirect('http://192.168.137.105:5000', code=301)
